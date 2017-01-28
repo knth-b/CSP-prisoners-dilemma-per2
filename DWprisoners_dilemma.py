@@ -135,9 +135,9 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
                 return 'c'
             elif score < -10: #otherwise if my score is less than -10, minimize risk and betray
                 return 'b'
-            elif opponent_score > 25: #otherwise if the opponent is doing pretty well betray them
+            elif opponent_score > 0: #otherwise if the opponent is doing pretty well betray them
                 return 'b'
-            elif opponent_score < 0: #otherwise if the opponent is doing pretty badly collude, we should work together
+            elif opponent_score < -50: #otherwise if the opponent is doing pretty badly collude, we should work together
                 return 'c'
             elif opponent_score < score:#same reasoning
                 return 'c'
