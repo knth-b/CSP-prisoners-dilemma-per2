@@ -124,7 +124,7 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
             if len(history) == 0: #if it's the first round, collude since I'm hoepful
                 return 'c'
             elif len(history) ==  1:# if it's the second round, betray... I've got a bad feeling about this...
-                return 'b'
+                return 'c'
             elif len(history) % 4 == 0: #if the round is divisible by four, collude, because 4 is a nice number
                 return 'c'
             elif opponent_history[-2] == 'c' and opponent_history[-1] == 'b':#otherwise if the the opponent seems to be switching to betraying collude
@@ -135,9 +135,11 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
                 return 'c'
             elif score < -10: #otherwise if my score is less than -10, minimize risk and betray
                 return 'b'
-            elif opponent_score > 10: #otherwise if the opponent is doing pretty well betray them
+            elif opponent_score > 25: #otherwise if the opponent is doing pretty well betray them
                 return 'b'
-            elif opponent_score < -10: #otherwise if the opponent is doing pretty badly collude, we should work together
+            elif opponent_score < 0: #otherwise if the opponent is doing pretty badly collude, we should work together
+                return 'c'
+            elif opponent_score < score:#same reasoning
                 return 'c'
             else: #if nothing else is true, then betray, at least the other person will feel worse
                 return 'b'
