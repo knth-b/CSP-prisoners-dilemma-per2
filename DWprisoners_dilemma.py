@@ -123,6 +123,8 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
         else:
             if len(history) == 0: #if it's the first round, collude since I'm hoepful
                 return 'c'
+            elif len(history) ==  1:# if it's the second round, betray... I've got a bad feeling about this...
+                return 'b'
             elif len(history) % 4 == 0: #if the round is divisible by four, collude, because 4 is a nice number
                 return 'c'
             elif opponent_history[-2] == 'c' and opponent_history[-1] == 'b':#otherwise if the the opponent seems to be switching to betraying collude
