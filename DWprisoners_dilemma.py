@@ -116,35 +116,47 @@ def get_action(player, history, opponent_history, score, opponent_score, getting
     ######
     ######
     #
-    # This example player always colludes
+    # This nonexample player nearly always colludes... right?
     if player == 0:
+        global KNTHScoreLIST
+        if not 'KNTHMoveLIST' in globals():
+            global KNTHMoveLIST
+            KNTHMoveLIST = ''
+            KNTHScoreLIST = [0]
+            KNTHBScores = [0]
+            KNTHCScores = [0]
         if getting_team_name:
             return 'KNTH!!'
+               
         else:
             if len(history) == 0: #if it's the first round, collude since I'm hoepful
+                KNTHMoveLIST += 'c'
                 return 'c'
-            elif len(history) ==  1:# if it's the second round, betray... I've got a bad feeling about this...
-                return 'c'
-            elif len(history) % 4 == 0: #if the round is divisible by four, collude, because 4 is a nice number
-                return 'c'
-            elif opponent_history[-2] == 'c' and opponent_history[-1] == 'b':#otherwise if the the opponent seems to be switching to betraying collude
-                return 'c'
-            elif opponent_history[-2] == 'b' and opponent_history[-1] == 'c':#otherwise if the opponent seems to be switching to colluding betray
+            else:
+              KNTHScoreLIST += [score-sum(KNTHScoreLIST)]
+              KNTHBScores = [KNTHScoreLIST[i] if KNTHMoveLIST[i] == 'b' else 0 for i in range(len(history))]
+              KNTHCScores = [KNTHScoreLIST[i] for i in range(len(history)) if KNTHMoveLIST[i] == 'c']
+              KNTHBAverage = sum(KNTHBScores)/len(KNTHBScores)
+              KNTHCAverage = sum(KNTHCScores)/len(KNTHCScores)
+              if len(history) ==  1:# if it's the second round, betray... I've got a bad feeling about this...
+                KNTHMoveLIST += 'b'
                 return 'b'
-            elif score > 10: #otherwise if my score is greater than 10, I'll be nice and collude
+              elif KNTHCAverage > KNTHBAverage:
+                KNTHMoveLIST += 'c'
                 return 'c'
-            elif score < -10: #otherwise if my score is less than -10, minimize risk and betray
-                return 'b'
-            elif opponent_score > 0: #otherwise if the opponent is doing pretty well betray them
-                return 'b'
-            elif opponent_score < -50: #otherwise if the opponent is doing pretty badly collude, we should work together
-                return 'c'
-            elif opponent_score < score:#same reasoning
-                return 'c'
-            else: #if nothing else is true, then betray, at least the other person will feel worse
-                return 'b'
+              elif opponent_score < -300: #otherwise if the opponent is doing pretty badly collude, we should work together
+                  KNTHMoveLIST += 'c'
+                  return 'c'
+              elif opponent_score < score:#same reasoning
+                  #print('My opponent is losin\'!!')
+                  KNTHMoveLIST += 'c'
+                  return 'c'
+              else: #if nothing else is true, then betray, at least the other person will feel worse
+                  #print('My opponent is winning!!')
+                  KNTHMoveLIST += 'b'
+                  return 'b'
 
-    
+
         
             
                 
